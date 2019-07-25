@@ -3,9 +3,10 @@ package com.project.rentalcarsystem;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 
-public interface CarRepository  extends JpaRepository<Car, Long>{
+public interface CarRepository  extends JpaRepository<Car, Long>, JpaSpecificationExecutor<Car>{
 
 	public List<Car> findByModelname(String modelname);
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/car-api")
-@CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
+//@CrossOrigin(origins="http://localhost:4200", allowedHeaders="*")
 public class CarController {
 	@Autowired
 	private CarRepository carRepository;

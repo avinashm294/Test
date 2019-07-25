@@ -8,7 +8,7 @@ import javax.persistence.Id;
 @Entity
 public class Car {
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	//(strategy = GenerationType.SEQUENCE)
     private Long id;
 	private String username;
