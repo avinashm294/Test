@@ -1,10 +1,13 @@
 package com.project.rentalcarsystem;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //import org.sambasoft.entities.User;
 //import org.sambasoft.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -72,4 +77,18 @@ public class CarController {
 	public List<Car> getYear(@PathVariable String year) {
 		return carRepository.findByYear(year);
 	}
+	
+	   @RequestMapping(method = RequestMethod.GET, value = "/Cars")
+	    @ResponseBody
+	    public List<Car> search(@RequestParam(value = "search") String search) {
+	        UserSpecificationsBuilder builder = new UserSpecificationsBuilder();
+	        Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
+	        Matcher matcher = pattern.matcher(search + ",");
+	        while (matcher.find()) {
+	            builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
+	        }
+	         
+	        Specification<Car> spec = builder.build();
+	        return carRepository.findAll(spec);
+	    }
 }
